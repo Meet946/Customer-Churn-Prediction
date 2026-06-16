@@ -300,3 +300,150 @@ Since customers with tenure = 0 had not yet accumulated any charges, replacing m
   * Internet Services
   * Payment Methods
 * Generate business insights from the dataset.
+
+
+# Day 2 - Initial Exploratory Data Analysis (EDA)
+
+## Objective
+
+To identify patterns and factors associated with customer churn through exploratory data analysis and generate actionable business insights.
+
+---
+
+## EDA 1: Churn Distribution Analysis
+
+### Observation
+
+Customer Churn Distribution:
+
+```text
+No     5174
+Yes    1869
+```
+
+### Interpretation
+
+* Approximately 73.5% of customers remained with the company.
+* Approximately 26.5% of customers churned.
+* The dataset is moderately imbalanced but suitable for classification modeling.
+
+### Business Insight
+
+A significant number of customers are leaving the company, making churn prediction an important business problem with direct revenue implications.
+
+---
+
+## EDA 2: Gender vs Churn
+
+### Crosstab Result
+
+```text
+Female    2549   939
+Male      2625   930
+```
+
+### Interpretation
+
+The churn rates for male and female customers are nearly identical.
+
+### Business Insight
+
+Gender does not appear to be a significant factor influencing customer churn. Retention strategies should focus on behavioral and service-related factors rather than gender demographics.
+
+---
+
+## EDA 3: Senior Citizen vs Churn
+
+### Crosstab Result
+
+```text
+SeniorCitizen    No    Yes
+0               4508  1393
+1                666   476
+```
+
+### Interpretation
+
+Although the number of senior citizens is lower, their churn rate is significantly higher compared to non-senior customers.
+
+Approximate Churn Rates:
+
+* Non-Senior Customers: 23.6%
+* Senior Citizens: 41.7%
+
+### Business Insight
+
+Senior citizens are substantially more likely to leave the service. This customer segment may require targeted retention strategies, improved customer support, or customized service plans.
+
+---
+
+## EDA 4: Contract Type vs Churn
+
+### Crosstab Result
+
+```text
+Month-to-month   2220  1655
+One year         1307   166
+Two year         1647    48
+```
+
+### Interpretation
+
+Approximate Churn Rates:
+
+* Month-to-Month Contract: 42.7%
+* One-Year Contract: 11.3%
+* Two-Year Contract: 2.8%
+
+### Business Insight
+
+Contract type is one of the strongest indicators of churn. Customers with month-to-month contracts are significantly more likely to leave compared to customers with long-term contracts.
+
+### Recommendation
+
+The company should encourage customers to transition from month-to-month plans to longer-term contracts through discounts, loyalty benefits, or promotional offers.
+
+---
+
+## EDA 5: Tenure vs Churn
+
+### Observation
+
+The boxplot analysis revealed:
+
+* Customers who churned generally had lower tenure.
+* Customers who remained with the company had substantially higher tenure.
+
+Approximate Median Tenure:
+
+* Churned Customers: ~10 months
+* Retained Customers: ~38 months
+
+### Business Insight
+
+Customer churn occurs predominantly during the early stages of the customer lifecycle. Long-term customers tend to remain loyal to the company.
+
+### Recommendation
+
+Customer retention efforts should focus on the first year of the customer journey, where the risk of churn is highest.
+
+---
+
+## Key Findings from Initial EDA
+
+1. Gender has minimal impact on customer churn.
+2. Senior citizens exhibit significantly higher churn rates.
+3. Month-to-month contracts are strongly associated with customer churn.
+4. Customers with lower tenure are more likely to leave the company.
+5. Contract type and tenure appear to be strong candidate features for churn prediction.
+
+---
+
+## Next Steps
+
+* Analyze MonthlyCharges vs Churn
+* Analyze TotalCharges vs Churn
+* Analyze InternetService vs Churn
+* Analyze PaymentMethod vs Churn
+* Identify additional churn drivers
+* Generate business recommendations based on EDA findings
