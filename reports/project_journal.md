@@ -447,3 +447,517 @@ Customer retention efforts should focus on the first year of the customer journe
 * Analyze PaymentMethod vs Churn
 * Identify additional churn drivers
 * Generate business recommendations based on EDA findings
+
+
+# Day 3 - Advanced Exploratory Data Analysis (EDA)
+
+## Objective
+
+To identify additional factors influencing customer churn and derive business insights from service usage and payment behavior.
+
+---
+
+## EDA 6: Internet Service vs Churn
+
+### Churn Rates
+
+```text
+DSL            : 18.96%
+Fiber Optic    : 41.89%
+No Internet    : 7.40%
+```
+
+### Interpretation
+
+Customers using Fiber Optic internet services exhibited the highest churn rate.
+
+### Business Insight
+
+Fiber Optic customers are significantly more likely to leave the company compared to DSL customers or customers without internet services.
+
+### Possible Reasons
+
+* Higher service costs
+* Increased customer expectations
+* Better offers from competitors
+* Potential service quality issues
+
+### Recommendation
+
+The company should investigate the pricing and quality of Fiber Optic services and design targeted retention campaigns for these customers.
+
+---
+
+## EDA 7: Payment Method vs Churn
+
+### Churn Rates
+
+```text
+Bank Transfer (Automatic) : 16.71%
+Credit Card (Automatic)   : 15.24%
+Electronic Check          : 45.29%
+Mailed Check              : 19.11%
+```
+
+### Interpretation
+
+Customers using Electronic Check as their payment method exhibited an extremely high churn rate.
+
+### Business Insight
+
+Payment behavior appears to be a strong indicator of customer churn.
+
+### Recommendation
+
+The company should encourage customers to adopt automatic payment methods by offering incentives and simplifying payment procedures.
+
+---
+
+## Key Findings from Advanced EDA
+
+1. Fiber Optic internet customers have the highest churn rate.
+2. Electronic Check users are significantly more likely to churn.
+3. Service usage and payment methods are important predictors of churn.
+4. Contract type, tenure, internet service, and payment method emerged as major churn drivers.
+
+---
+
+# Day 4 - Data Preprocessing and Feature Engineering
+
+## Objective
+
+To prepare the dataset for Machine Learning model development.
+
+---
+
+## Feature Selection
+
+Removed:
+
+```text
+customerID
+```
+
+because it acts as an identifier and does not contribute to predictive modeling.
+
+---
+
+## Feature and Target Definition
+
+```python
+X Shape: (7043, 19)
+y Shape: (7043,)
+```
+
+---
+
+## Train-Test Split
+
+Performed an 80-20 train-test split.
+
+```text
+X_train: (5634, 19)
+X_test : (1409, 19)
+y_train: (5634,)
+y_test : (1409,)
+```
+
+---
+
+## Feature Categorization
+
+### Numerical Features
+
+```text
+SeniorCitizen
+tenure
+MonthlyCharges
+TotalCharges
+```
+
+### Categorical Features
+
+```text
+gender
+Partner
+Dependents
+PhoneService
+MultipleLines
+InternetService
+OnlineSecurity
+OnlineBackup
+DeviceProtection
+TechSupport
+StreamingTV
+StreamingMovies
+Contract
+PaperlessBilling
+PaymentMethod
+```
+
+---
+
+## Feature Engineering Pipeline
+
+Used:
+
+* StandardScaler for numerical features
+* OneHotEncoder for categorical features
+* ColumnTransformer for preprocessing automation
+
+---
+
+## Transformed Dataset Shape
+
+```text
+X_train_processed: (5634, 30)
+X_test_processed : (1409, 30)
+```
+
+---
+
+## Key Learnings
+
+* Train-test split should occur before preprocessing to avoid data leakage.
+* Numerical and categorical features require different preprocessing techniques.
+* Pipelines ensure consistency during training and prediction.
+
+---
+
+# Day 5 - Model Training and Evaluation
+
+## Objective
+
+To train multiple classification algorithms and compare their performance.
+
+---
+
+## Model 1: Logistic Regression
+
+### Performance
+
+Accuracy: 80.70%
+
+Classification Metrics:
+
+* Precision (Churn): 66%
+* Recall (Churn): 56%
+* F1 Score (Churn): 61%
+
+### Observation
+
+Provided the highest overall accuracy while maintaining balanced performance.
+
+---
+
+## Model 2: Decision Tree
+
+Accuracy: 72.53%
+
+### Observation
+
+The model exhibited lower performance and signs of overfitting.
+
+---
+
+## Model 3: Random Forest
+
+Accuracy: 78.50%
+
+### Observation
+
+Produced strong performance but slightly lower recall for churn prediction.
+
+---
+
+## Model 4: Balanced Logistic Regression
+
+Accuracy: 73.88%
+
+Recall (Churn): 78%
+
+### Observation
+
+Substantially improved the model's ability to identify churned customers.
+
+---
+
+## Model Comparison Insights
+
+* Logistic Regression achieved the highest accuracy.
+* Balanced Logistic Regression achieved the highest churn recall.
+* Random Forest delivered strong overall performance.
+* Decision Tree performed comparatively poorly.
+
+---
+
+# Day 6 - Cross Validation and Hyperparameter Tuning
+
+## Objective
+
+To improve model generalization and identify optimal model parameters.
+
+---
+
+## Cross Validation
+
+### Accuracy Scores
+
+```text
+[0.8314, 0.8012, 0.8057, 0.7915, 0.7922]
+```
+
+Mean Accuracy:
+
+```text
+80.44%
+```
+
+### F1 Scores
+
+```text
+[0.7710, 0.7259, 0.7343, 0.7198, 0.7213]
+```
+
+Mean F1 Score:
+
+```text
+73.44%
+```
+
+### Observation
+
+The model exhibited stable performance across different data splits.
+
+---
+
+## Hyperparameter Tuning
+
+Used GridSearchCV.
+
+Best Parameters:
+
+```text
+C = 0.1
+class_weight = balanced
+```
+
+Best Cross Validation F1 Score:
+
+```text
+63.33%
+```
+
+---
+
+## Tuned Model Performance
+
+Accuracy: 74.24%
+
+Recall (Churn): 78%
+
+F1 Score (Churn): 62%
+
+### Observation
+
+Hyperparameter tuning improved churn detection capability while maintaining acceptable overall performance.
+
+---
+
+# Day 7 - Threshold Optimization and Business Interpretation
+
+## Objective
+
+To optimize prediction thresholds and maximize business value.
+
+---
+
+## Threshold Experimentation
+
+The default classification threshold of 0.50 was replaced by multiple threshold values.
+
+Highest F1 Score:
+
+```text
+Threshold = 0.55
+F1 Score = 62.25%
+Precision = 53%
+Recall = 75%
+```
+
+---
+
+## Business Significance
+
+Reducing false negatives is critical because failing to identify churn customers directly impacts company revenue.
+
+### Final Model Selection
+
+Algorithm:
+
+```text
+Logistic Regression
+```
+
+Parameters:
+
+```text
+C = 0.1
+class_weight = balanced
+Decision Threshold = 0.55
+```
+
+---
+
+# Feature Importance Analysis
+
+## Major Churn Drivers
+
+* Fiber Optic Internet Service
+* Electronic Check Payment Method
+* Month-to-Month Contract
+* Streaming Services
+* Multiple Lines
+
+## Major Retention Factors
+
+* Two-Year Contract
+* Long Customer Tenure
+* One-Year Contract
+* Online Security
+* Tech Support
+
+---
+
+## Business Recommendations
+
+* Promote long-term contracts.
+* Target early-stage customers for retention campaigns.
+* Improve Fiber Optic customer experience.
+* Encourage automatic payment methods.
+* Bundle Online Security and Tech Support services.
+
+---
+
+# Day 8 - Model Persistence and Streamlit Application Development
+
+## Objective
+
+To transform the Machine Learning model into a deployable end-to-end application.
+
+---
+
+## Model Persistence
+
+Saved:
+
+```text
+churn_model.pkl
+preprocessor.pkl
+```
+
+using Joblib.
+
+---
+
+## Prediction Pipeline
+
+Created:
+
+```text
+src/predict.py
+```
+
+Responsibilities:
+
+* Load model
+* Load preprocessor
+* Transform user inputs
+* Generate churn probabilities
+* Apply optimized threshold
+* Return prediction and probability
+
+---
+
+## Streamlit Dashboard Development
+
+Implemented:
+
+* Sidebar customer input form
+* Customer summary section
+* Churn probability estimation
+* Risk level indicators
+* Progress visualization
+* Dynamic business recommendations
+* Risk factor identification
+* Downloadable prediction report
+* Model information section
+
+---
+
+## Final Project Structure
+
+```text
+Customer-Churn-Prediction/
+├── app.py
+├── requirements.txt
+├── README.md
+├── data/
+├── models/
+├── notebooks/
+├── screenshots/
+└── src/
+    └── predict.py
+```
+
+---
+
+# Final Project Outcome
+
+Successfully developed an end-to-end Customer Churn Prediction System capable of:
+
+* Predicting telecom customer churn probability.
+* Providing actionable business recommendations.
+* Identifying major churn risk factors.
+* Offering an interactive dashboard for business users.
+
+---
+
+# Overall Project Learnings
+
+* End-to-end Machine Learning project development.
+* Data cleaning and business-driven missing value handling.
+* Exploratory Data Analysis and business interpretation.
+* Feature engineering and preprocessing pipelines.
+* Model comparison and evaluation.
+* Cross validation and hyperparameter tuning.
+* Threshold optimization for business objectives.
+* Model persistence and deployment workflows.
+* Building interactive dashboards using Streamlit.
+* Professional project structuring using Git and GitHub.
+
+---
+
+# Project Status
+
+✅ Data Understanding Completed
+
+✅ Exploratory Data Analysis Completed
+
+✅ Data Preprocessing Completed
+
+✅ Multiple Model Training Completed
+
+✅ Hyperparameter Tuning Completed
+
+✅ Threshold Optimization Completed
+
+✅ Feature Importance Analysis Completed
+
+✅ Model Persistence Completed
+
+✅ Streamlit Dashboard Completed
+
+✅ GitHub Repository Completed
+
+✅ Placement-Ready End-to-End Data Science Project Successfully Completed
